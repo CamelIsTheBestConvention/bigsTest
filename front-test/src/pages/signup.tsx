@@ -2,8 +2,15 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+interface signupData {
+  username: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+}
+
 const Signup: React.FC = () => {
-  const [signupData, setSignupData] = useState({
+  const [signupData, setSignupData] = useState<signupData>({
     username: "",
     name: "",
     password: "",
@@ -27,15 +34,12 @@ const Signup: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `https://front-mission.bigs.or.kr/auth/signup`,
-        {
-          username: signupData.username,
-          name: signupData.name,
-          password: signupData.password,
-          confirmPassword: signupData.confirmPassword,
-        }
-      );
+      await axios.post(`https://front-mission.bigs.or.kr/auth/signup`, {
+        username: signupData.username,
+        name: signupData.name,
+        password: signupData.password,
+        confirmPassword: signupData.confirmPassword,
+      });
 
       alert("회원가입 완료");
       navigate("/");
