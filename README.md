@@ -1,4 +1,6 @@
 # bigsTest - bigs front-end developer test
+React와 TypeScript, styled-components를 사용한 게시판 구현
+
 실행 가이드
 -------------
 1. 모듈 설치를 위해 "npm i"로 package.json에 기록되어있는 라이브러리 설치
