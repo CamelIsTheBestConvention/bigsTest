@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../components/common/pageTitle";
+import InputBox from "../components/common/inputBox";
+import Button from "../components/common/button";
+import styled from "styled-components";
 
 interface loginData {
   username: string;
@@ -36,10 +40,12 @@ const Signin: React.FC = () => {
         }
       );
 
-      alert("로그인 성공");
-      console.log(response.data);
       sessionStorage.setItem("accessToken", response.data.accessToken);
       sessionStorage.setItem("refreshToken", response.data.refreshToken);
+      sessionStorage.setItem("email", loginData.username);
+
+      alert("로그인 성공");
+      console.log(response.data);
 
       navigate("/board");
     } catch (error) {
@@ -48,35 +54,62 @@ const Signin: React.FC = () => {
     }
   };
 
+  const handleSignup = () => {
+    navigate("/signup");
+  };
+
   return (
     <>
-      <header>로그인</header>
-      <form>
-        <main>
-          <div>
-            <span>이메일</span>
-            <input
+      <LoginWrapper>
+        <PageTitle titleText="로그인" />
+        <form>
+          <main>
+            <InputBox
               type="text"
               placeholder="이메일"
               name="username"
               value={loginData.username}
               onChange={handleDataChange}
             />
-          </div>
-          <div>
-            <span>비밀번호</span>
-            <input
+            <InputBox
               type="password"
               placeholder="비밀번호"
               name="password"
               value={loginData.password}
               onChange={handleDataChange}
             />
-          </div>
-          <button onClick={handleSubmit}>로그인</button>
-        </main>
-      </form>
+            <Button onClick={handleSubmit} btnText="로그인" />
+          </main>
+        </form>
+        <SignupBox>
+          <span onClick={handleSignup}>회원가입</span>
+        </SignupBox>
+      </LoginWrapper>
     </>
   );
 };
 export default Signin;
+
+const LoginWrapper = styled.div`
+  width: 100%;
+  padding: 80px 0;
+`;
+
+const SignupBox = styled.div`
+  width: 60%;
+  max-width: 500px;
+  min-width: 200px;
+  margin: 0 auto;
+  text-align: right;
+  color: #848484;
+
+  &:hover {
+    cursor: pointer;
+    color: #007bff;
+  }
+
+  @media (max-width: 500px) {
+    width: 90%;
+    font-size: 13px;
+  }
+`;
